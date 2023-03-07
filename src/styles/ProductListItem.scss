@@ -1,4 +1,4 @@
-.product_list_item{
+.product-list-item{
   display: flex;
   padding: 16px 12px;
   border-bottom: 1px solid rgb(243, 243, 247);
@@ -15,18 +15,18 @@
   }
 }
 
-.product_list_item__media{
+.product-list-item__media{
   flex: 0 0 auto;
   position: relative;
   margin: 0px 8px 0px 0px;
   width: 150px;
 }
-.product_list_item__image{
+.product-list-item__image{
   max-width: 100%;
   height: auto;
   border-radius: 1px
 }
-.product_list_item__teaser{
+.product-list-item__teaser{
   font-size: 12px;
   line-height: 16px;
 }

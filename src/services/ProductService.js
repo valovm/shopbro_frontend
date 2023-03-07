@@ -39,7 +39,7 @@ function getProductDetail(productId) {
 
         setTimeout(() => {
             if(product){ resolve(product); }
-        }, 5000);
+        }, 200);
     });
 }
 

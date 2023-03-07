@@ -1,4 +1,4 @@
-// Navbar
+// Navbar.jsx
 //
 // Provide a static navbar from which we expand to create full-width, fixed, and
 // other navbar variations.
@@ -58,7 +58,7 @@
 }
 
 
-// Navbar brand
+// Navbar.jsx brand
 //
 // Used for brand, project, or site names.
 
@@ -79,7 +79,7 @@
 }
 
 
-// Navbar nav
+// Navbar.jsx nav
 //
 // Custom navbar navigation (doesn't require `.nav`, but does make use of `.nav-link`).
 
@@ -111,7 +111,7 @@
 }
 
 
-// Navbar text
+// Navbar.jsx text
 //
 //
 
@@ -256,7 +256,7 @@
 }
 // scss-docs-end navbar-expand-loop
 
-// Navbar themes
+// Navbar.jsx themes
 //
 // Styles for switching between navbars with light or dark background.
 
