@@ -13,7 +13,7 @@ export default function ProductDetailModal({product = null, show = false, onClos
                     X
                 </Button>
                 <Image
-                    src="https://dodopizza-a.akamaihd.net/static/Img/Products/b8880e1ce9b84e78aa3004d5b86d5bf9_1875x1875.png"
+                    src={product?.image?.url}
                     fluid={true}
                 ></Image>
                 <img alt=""/>
