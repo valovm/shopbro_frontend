@@ -1,0 +1,32 @@
+.product_list_item{
+  display: flex;
+  padding: 16px 12px;
+  border-bottom: 1px solid rgb(243, 243, 247);
+  align-items: center;
+
+  &__title{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    margin-bottom: 4px;
+  }
+  &__controls{
+    margin-top: 12px;
+  }
+}
+
+.product_list_item__media{
+  flex: 0 0 auto;
+  position: relative;
+  margin: 0px 8px 0px 0px;
+  width: 150px;
+}
+.product_list_item__image{
+  max-width: 100%;
+  height: auto;
+  border-radius: 1px
+}
+.product_list_item__teaser{
+  font-size: 12px;
+  line-height: 16px;
+}
