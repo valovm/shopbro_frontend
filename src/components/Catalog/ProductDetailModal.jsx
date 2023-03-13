@@ -1,9 +1,19 @@
-import {Button, Image, Modal} from "react-bootstrap";
+import {Image, Modal} from "react-bootstrap";
+import {useState} from "react";
+import Button from "../ui/Button";
 
-export default function ProductDetailModal({product = null, show = false, onClose = null}) {
+export default function ProductDetailModal({product = null, show = false, onClose = null, onAddCart}) {
+    const [addingToCart, setAddingToCart] = useState(false);
 
     function close(){
         if(onClose) { onClose() }
+    }
+
+    async function AddCart(product){
+        setAddingToCart(true)
+        await onAddCart(product)
+        setAddingToCart(false)
+        close()
     }
 
     return (
@@ -24,7 +34,7 @@ export default function ProductDetailModal({product = null, show = false, onClos
             </Modal.Body>
             <Modal.Footer className="d-block border-0">
                 <div className="d-grid" >
-                    <Button variant="primary" size="lg">
+                    <Button variant="primary" size="lg" onClick={() => AddCart(product)} loading={addingToCart}>
                         Block level button
                     </Button>
                 </div>

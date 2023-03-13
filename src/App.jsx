@@ -4,9 +4,14 @@ import Nav from "react-bootstrap/Nav";
 import ProductList from "./components/Catalog/ProductList";
 import ProductDetailModal from "./components/Catalog/ProductDetailModal";
 
-import { useState } from 'react';
-import { getProductDetail, getProducts } from "./services/ProductService";
+import {useReducer, useState} from 'react';
+
 import Logo from "./components/Logo";
+
+
+import {getProductDetail, getProducts} from "./services/ProductService";
+import CartBlock from "./components/Catalog/CartBlock";
+import {CartActions, CartReducer, CartReducerInitializer} from "./reducers/CartReducer";
 
 function BroNavbar() {
     return (
@@ -26,11 +31,15 @@ function BroNavbar() {
 }
 
 export default function App() {
+    const [cartState, cartAction] = useReducer(CartReducer, null, CartReducerInitializer)
+
     const [productModalShow, setProductModalShow] = useState(false);
     const [productActive, setProductActive] = useState(null);
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState(null);
 
-    getProducts().then(res => { setProducts(res) })
+    if(products == null){
+        getProducts().then(res => { setProducts(res) })
+    }
 
     function openProduct(productId){
         setProductModalShow(true)
@@ -42,15 +51,38 @@ export default function App() {
         setProductActive(null)
     }
 
+    async function cartAddItem(productItem){
+        cartAction({type: CartActions.ADD_ITEM, productItem })
+    }
+    async function cartDecreaseItem(productId){
+        cartAction({type: CartActions.DECREASE_ITEM, productId })
+    }
+
     return (
         <div>
             <BroNavbar></BroNavbar>
+
             <main>
                 <Container>
-                    <ProductList products={products} onProductInfoRequest={openProduct}></ProductList>
+                    { products &&
+                        <ProductList
+                            products={products}
+                            onProductInfoRequest={openProduct}
+                            onCartAddItem={cartAddItem}
+                            onCartDecreaseItem={cartDecreaseItem}
+                            cartState={cartState}
+                        >
+                        </ProductList>
+                    }
                 </Container>
             </main>
-            <ProductDetailModal product={productActive} show={productModalShow} onClose={closeProduct}></ProductDetailModal>
+            <ProductDetailModal
+                product={productActive}
+                show={productModalShow}
+                onClose={closeProduct}
+                onCartAddItem={cartAddItem}>
+            </ProductDetailModal>
+            <CartBlock cartState={cartState}></CartBlock>
         </div>
     );
 }

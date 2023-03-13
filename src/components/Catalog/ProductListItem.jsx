@@ -1,6 +1,21 @@
-import {Button} from "react-bootstrap";
 
-export default function ProductListItem({product, onProductInfoRequest}){
+import Button from "../ui/Button";
+import {useState} from "react";
+
+export default function ProductListItem({product, onProductInfoRequest = null, onCartAddItem, onCartDecreaseItem, countInCart = 0}){
+    const [cartLoading, setAddingToCart] = useState(false);
+
+    async function AddProductToCart(productItem){
+        setAddingToCart(true)
+        await onCartAddItem(productItem)
+        setAddingToCart(false)
+    }
+
+    async function CartDecreaseItem(productId){
+        setAddingToCart(true)
+        await onCartDecreaseItem(productId)
+        setAddingToCart(false)
+    }
 
     function productInfoRequest(productId){
         if(onProductInfoRequest) { onProductInfoRequest(productId) }
@@ -17,7 +32,23 @@ export default function ProductListItem({product, onProductInfoRequest}){
                     { product.teaser }
                 </div>
                 <div className="product-list-item__controls">
-                    <Button variant="soft-primary" >Купить</Button>
+                    {
+                         countInCart <= 0 &&
+                        <Button variant="soft-primary" onClick={() => AddProductToCart(product)} loading={cartLoading} >Купить</Button>
+                    }
+
+                    {
+                        countInCart > 0 &&
+                            <div>
+                                <Button variant="soft-primary" onClick={() => CartDecreaseItem(product.id)} loading={cartLoading} >-</Button>
+                                {countInCart}
+                                <Button variant="soft-primary" onClick={() => AddProductToCart(product)} loading={cartLoading} >+</Button>
+
+                            </div>
+                    }
+
+
+
                 </div>
             </div>
         </div>
