@@ -3,6 +3,7 @@ function CartReducerInitializer(args= null) {
 }
 const ADD_ITEM = 'ADD_ITEM'
 const DECREASE_ITEM = 'DECREASE_ITEM'
+const REMOVE_ITEM = 'REMOVE_ITEM'
 
 function CartReducer(state, action) {
     switch (action.type){
@@ -30,21 +31,18 @@ function CartReducer(state, action) {
 
             return newState
         }
-        case DECREASE_ITEM:
+        case DECREASE_ITEM: {
             const cartItem = state.items[action.productId]
             if(!cartItem){ return state }
 
             const newState = {...state, total: 0, count: 0 }
-            if(cartItem.count === 1){
-                const {[action.productId]: _, ...rest} = newState.items
-                newState.items = rest
-            }else{
-                newState.items[action.productId] = {
-                    ...cartItem,
-                    count: cartItem.count - 1,
-                    total: cartItem.productItem.price.cents * (cartItem.count - 1)
-                }
+            newState.items = {...newState.items}
+            newState.items[action.productId] = {
+                ...cartItem,
+                count: cartItem.count - 1,
+                total: cartItem.productItem.price.cents * (cartItem.count - 1)
             }
+
 
             Object.values(newState.items).forEach(item => {
                 newState.total += item.total
@@ -53,6 +51,23 @@ function CartReducer(state, action) {
 
             return newState
         }
+        case REMOVE_ITEM: {
+            const cartItem = state.items[action.productId]
+            if(!cartItem){ return state }
+
+            const newState = {...state, count: 0, total: 0 }
+            const items =  {...newState.items }
+            delete items[action.productId]
+            newState.items = items
+
+            Object.values(newState.items).forEach(item => {
+                newState.total += item.total
+                newState.count += item.count
+            })
+
+            return newState
+        }
+    }
 }
-const CartActions = { ADD_ITEM, DECREASE_ITEM }
+const CartActions = { ADD_ITEM, DECREASE_ITEM, REMOVE_ITEM }
 export { CartReducerInitializer, CartReducer, CartActions  }

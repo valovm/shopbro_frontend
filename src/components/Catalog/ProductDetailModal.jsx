@@ -1,17 +1,18 @@
 import {Image, Modal} from "react-bootstrap";
 import {useState} from "react";
 import Button from "../ui/Button";
+import {Amount} from "@alfalab/core-components-amount";
 
-export default function ProductDetailModal({product = null, show = false, onClose = null, onAddCart}) {
+export default function ProductDetailModal({product = null, show = false, onClose = null, onCartAddItem, countInCart = 0}) {
     const [addingToCart, setAddingToCart] = useState(false);
 
     function close(){
         if(onClose) { onClose() }
     }
 
-    async function AddCart(product){
+    async function AddToCart(product){
         setAddingToCart(true)
-        await onAddCart(product)
+        await onCartAddItem(product)
         setAddingToCart(false)
         close()
     }
@@ -36,11 +37,11 @@ export default function ProductDetailModal({product = null, show = false, onClos
                 <Modal.Footer className="d-block border-0">
                     <div className="row align-items-center">
                         <div className="col-6">
-                            {product.price.cents}
+                            <Amount minority={100} value={product.price.cents} currency="RUB"></Amount>
                         </div>
                         <div className="col-6">
                             <div className="d-grid">
-                                <Button variant="primary" size="lg" onClick={() => AddCart(product)} loading={addingToCart}>
+                                <Button variant="primary" size="lg" onClick={() => AddToCart(product)} loading={addingToCart}>
                                     В корзину
                                 </Button>
                             </div>

@@ -1,5 +1,5 @@
 import './styles/App.sass';
-import {Badge, Container, Navbar} from "react-bootstrap";
+import {Badge, Container, InputGroup, Navbar} from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import ProductList from "./components/Catalog/ProductList";
 import ProductDetailModal from "./components/Catalog/ProductDetailModal";
@@ -30,6 +30,7 @@ function BroNavbar() {
     );
 }
 
+
 export default function App() {
     const [cartState, cartAction] = useReducer(CartReducer, null, CartReducerInitializer)
 
@@ -57,10 +58,24 @@ export default function App() {
     async function cartDecreaseItem(productId){
         cartAction({type: CartActions.DECREASE_ITEM, productId })
     }
+    async function cartRemoveItem(productId){
+        console.log('cartRemoveItem', productId);
+        cartAction({type: CartActions.REMOVE_ITEM, productId })
+    }
 
     return (
         <div>
             <BroNavbar></BroNavbar>
+            <div className="container">
+                <CartBlock cartState={cartState}
+                           onDecreaseItem={cartDecreaseItem}
+                           onIncreaseItem={cartAddItem}
+                           onRemoveItem={cartRemoveItem}
+                ></CartBlock>
+            </div>
+
+
+
 
             <main>
                 <Container>
