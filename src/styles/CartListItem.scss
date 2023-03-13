@@ -1,0 +1,32 @@
+.cart-list-item{
+
+
+
+  &__body{
+    display: flex;
+    align-items: center;
+  }
+
+  &__title{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    margin-bottom: 4px;
+  }
+}
+
+.cart-list-item__media{
+  flex: 0 0 auto;
+  position: relative;
+  margin: 0px 8px 0px 0px;
+  width: 100px;
+}
+.cart-list-item__image{
+  max-width: 100%;
+  height: auto;
+  border-radius: 1px
+}
+.cart-list-item__teaser{
+  font-size: 12px;
+  line-height: 16px;
+}
