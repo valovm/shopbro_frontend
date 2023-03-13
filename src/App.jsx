@@ -1,5 +1,5 @@
 import './styles/App.sass';
-import {Container, Navbar} from "react-bootstrap";
+import {Badge, Container, Navbar} from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import ProductList from "./components/Catalog/ProductList";
 import ProductDetailModal from "./components/Catalog/ProductDetailModal";
@@ -82,7 +82,17 @@ export default function App() {
                 onClose={closeProduct}
                 onCartAddItem={cartAddItem}>
             </ProductDetailModal>
-            <CartBlock cartState={cartState}></CartBlock>
+
+            <div className="sticky-bottom bg-light p-3">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-4">Меню</div>
+                        <div className="col-4">Контакты</div>
+                        <div className="col-4">Корзина <Badge>{cartState.count}</Badge></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     );
 }

@@ -32,13 +32,23 @@ export default function ProductDetailModal({product = null, show = false, onClos
                     {product?.teaser}
                 </div>
             </Modal.Body>
-            <Modal.Footer className="d-block border-0">
-                <div className="d-grid" >
-                    <Button variant="primary" size="lg" onClick={() => AddCart(product)} loading={addingToCart}>
-                        Block level button
-                    </Button>
-                </div>
-            </Modal.Footer>
+            { product &&
+                <Modal.Footer className="d-block border-0">
+                    <div className="row align-items-center">
+                        <div className="col-6">
+                            {product.price.cents}
+                        </div>
+                        <div className="col-6">
+                            <div className="d-grid">
+                                <Button variant="primary" size="lg" onClick={() => AddCart(product)} loading={addingToCart}>
+                                    В корзину
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </Modal.Footer>
+            }
+
         </Modal>
     )
 }
