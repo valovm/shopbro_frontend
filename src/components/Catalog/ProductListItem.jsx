@@ -40,7 +40,7 @@ export default function ProductListItem({product, onProductInfoRequest = null, o
                     {
                         countInCart > 0 &&
                             <div>
-                                <Button variant="soft-primary" onClick={() => CartDecreaseItem(product.id)} loading={cartLoading} >-</Button>
+                                <Button variant="light" onClick={() => CartDecreaseItem(product.id)} loading={cartLoading} >-</Button>
                                 {countInCart}
                                 <Button variant="soft-primary" onClick={() => AddProductToCart(product)} loading={cartLoading} >+</Button>
 

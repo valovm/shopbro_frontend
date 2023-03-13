@@ -16,6 +16,7 @@ export default function ProductList({
                              key={product.id.toString()}
                              product={product}
                              onProductInfoRequest={onProductInfoRequest}
+
                              onCartAddItem={onCartAddItem}
                              onCartDecreaseItem={onCartDecreaseItem}
                              countInCart={cartState.items[product.id]?.count || 0}
