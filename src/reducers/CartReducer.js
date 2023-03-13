@@ -5,12 +5,34 @@ const ADD_ITEM = 'ADD_ITEM'
 const DECREASE_ITEM = 'DECREASE_ITEM'
 const REMOVE_ITEM = 'REMOVE_ITEM'
 
+function refreshTotals(state){
+    state.total = 0
+    state.count = 0
+    Object.values(state.items).forEach(item => {
+        state.total += item.total
+        state.count += item.count
+    })
+}
+
+function removeItem(state, productId){
+    const cartItem = state.items[productId]
+    if(!cartItem){ return state }
+
+    const newState = {...state }
+    const items =  {...newState.items }
+    delete items[productId]
+    newState.items = items
+
+    refreshTotals(newState)
+
+    return newState
+}
+
 function CartReducer(state, action) {
     switch (action.type){
         case ADD_ITEM: {
             const product = action.productItem
-            const newState = {...state, total: 0, count: 0 }
-            newState.items = { ...state.items }
+            const newState = {...state, items: { ...state.items } }
             if(newState.items[product.id]){
                 newState.items[product.id] = {
                     ...newState.items[product.id],
@@ -24,48 +46,27 @@ function CartReducer(state, action) {
                     total: product.price.cents
                 }
             }
-            Object.values(newState.items).forEach(item => {
-                newState.total += item.total
-                newState.count += item.count
-            })
+            refreshTotals(newState)
 
             return newState
         }
         case DECREASE_ITEM: {
             const cartItem = state.items[action.productId]
             if(!cartItem){ return state }
+            if(cartItem.count == 1) { return removeItem(state, action.productId) }
 
-            const newState = {...state, total: 0, count: 0 }
-            newState.items = {...newState.items}
+            const newState = {...state, items: { ...state.items } }
             newState.items[action.productId] = {
                 ...cartItem,
                 count: cartItem.count - 1,
                 total: cartItem.productItem.price.cents * (cartItem.count - 1)
             }
-
-
-            Object.values(newState.items).forEach(item => {
-                newState.total += item.total
-                newState.count += item.count
-            })
+            refreshTotals(newState)
 
             return newState
         }
         case REMOVE_ITEM: {
-            const cartItem = state.items[action.productId]
-            if(!cartItem){ return state }
-
-            const newState = {...state, count: 0, total: 0 }
-            const items =  {...newState.items }
-            delete items[action.productId]
-            newState.items = items
-
-            Object.values(newState.items).forEach(item => {
-                newState.total += item.total
-                newState.count += item.count
-            })
-
-            return newState
+            return removeItem(state, action.productId)
         }
     }
 }
